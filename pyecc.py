@@ -1,5 +1,5 @@
 import logging
-from commands import get_command, CommandsEnum
+from commands import CommandsEnum, Command
 from user import User
 
 if __name__ == "__main__":
@@ -10,8 +10,7 @@ if __name__ == "__main__":
     user = User()
     while True:
         try:
-            command = get_command()
-            logging.getLogger().info(f"Command: {command}")
+            command = Command()
             if command.command == CommandsEnum.QUIT:
                 break
             command.process(user)
