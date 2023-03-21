@@ -2,10 +2,14 @@ from dataclasses import dataclass
 from galois import GF # type: ignore
 
 class EllipticCurve:
-    def __init__(self, a, b) -> None:
+    def __init__(self, params: list[int] | None) -> None:
         self.GF = GF(5**3)
-        self.a = self.GF(a)
-        self.b = self.GF(b)
+        if params is not None:
+            self.a = self.GF(params[0])
+            self.b = self.GF(params[1])
+        else:
+            self.a = self.GF(45)
+            self.b = self.GF(27)
         self.check_determinant()
 
     def check_determinant(self):
