@@ -12,6 +12,7 @@ class CommandsEnum(enum.Enum):
     DECIPHER = ["-d", "decipher", "Decipher message."]
     SHOW_CURVE = ["--show_curve", "show", "Plot current elliptic curve's points."]
     SET_CURVE = ["--set_curve", "set", "Set ciphering elliptic curve."]
+    SUMS = ["--sum_table", "sums", "Show table of sums of curve's points."]
 
 
 class Command:
@@ -27,6 +28,11 @@ class Command:
             user.curve = EllipticCurve(self.params)
         if self.command == CommandsEnum.HELP:
             logging.getLogger().info(Command._help_message())
+        if self.command == CommandsEnum.SHOW_CURVE:
+            logging.getLogger().info("Close the figure to continue.")
+            user.curve.plot()
+        if self.command == CommandsEnum.SUMS:
+            user.curve.print_sum_table()
 
     @staticmethod
     def _help_message() -> str:
