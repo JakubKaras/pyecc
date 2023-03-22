@@ -6,7 +6,7 @@ if __name__ == "__main__":
     logging.getLogger(__name__)
     logging.basicConfig(format = '\n%(asctime)s %(module)s %(levelname)s: %(message)s', datefmt = '%I:%M:%S %p', level = logging.INFO)
 
-    logging.getLogger().info("Hello from PyECC.")
+    logging.getLogger().info("Hello from PyECC.\nFor list of commands type -h or help.")
     user = User()
     while True:
         try:
