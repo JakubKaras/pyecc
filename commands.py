@@ -56,9 +56,9 @@ class Command:
     @staticmethod
     def _get_command_params(command_enum: CommandsEnum) -> list | None:
         if command_enum == CommandsEnum.CIPHER:
-            return None
+            raise NotImplementedError("Ciphering is not implemented yet.")
         if command_enum == CommandsEnum.DECIPHER:
-            return None
+            raise NotImplementedError("Deciphering is not implemented yet.")
         if command_enum == CommandsEnum.SET_CURVE:
             logging.getLogger().info("Setting elliptic-curve in the form y^2 = x^3 + ax + b.")
             param_a = int(User.read_int("Parameter a: "))
