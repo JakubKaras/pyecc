@@ -3,3 +3,7 @@ channels:
   - defaults
 dependencies:
   - python=3.10
+  - pip
+  - matplotlib
+  - pip:
+    - galois
