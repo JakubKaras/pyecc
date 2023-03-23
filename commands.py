@@ -1,6 +1,6 @@
 import enum
 import logging
-from elliptic_curves import EllipticCurve, CurvePoint
+from elliptic_curves import EllipticCurve
 from user import User
 
 
@@ -13,8 +13,8 @@ class CommandsEnum(enum.Enum):
     SHOW_CURVE = ["--show_curve", "show", "Plot current elliptic curve's points."]
     SET_CURVE = ["--set_curve", "set", "Set ciphering elliptic curve."]
     SUMS = ["--sum_table", "sums", "Show table of sums of curve's points."]
-    PRINT_POINTS = ["--print_points", "print", "Show all points of the curve."]
-
+    PRINT_POINTS = ["--print_points", "printp", "Show all points of the curve."]
+    PUBLIC_KEY = ["--public_key", "key", "Show public key."]
 
 class Command:
     def __init__(self):
@@ -39,9 +39,11 @@ class Command:
         if self.command == CommandsEnum.CIPHER:
             user.cipher_message(self.params)
         if self.command == CommandsEnum.DECIPHER:
-            user.decipher_current_message()    
+            user.decipher_current_message()  
+        if self.command == CommandsEnum.PUBLIC_KEY:
+            public_key = user.get_public_key()
+            logging.getLogger().info("Public key: " + str(public_key.P) + "," + str(public_key.Q))  
             
-
     @staticmethod
     def _help_message() -> str:
         help_message = "The following commands are available:\nCommand:                    Function:\n"
@@ -65,7 +67,7 @@ class Command:
     def _get_command_params(command_enum: CommandsEnum) -> list | None:
         if command_enum == CommandsEnum.CIPHER:
             logging.getLogger().info("Type message you want to coded. Message can be an arbitrary number in the range 0 - 134.")
-            return int(User.read_int("Messege: "))
+            return int(User.read_int("Message: "))
         # if command_enum == CommandsEnum.DECIPHER:
         #     raise NotImplementedError("Deciphering is not implemented yet.")
         if command_enum == CommandsEnum.SET_CURVE:
