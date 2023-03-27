@@ -22,7 +22,7 @@ class CurvePoint:
 
 class EllipticCurve:
     def __init__(self, params: list[int] | None) -> None:
-        self.order = 11**2
+        self.order = 5**3
         self.GF = GF(self.order)
         self.second_powers_of: dict[int, np.ndarray] = {}
         self.points: list[CurvePoint] = [CurvePoint(0, 0)]
