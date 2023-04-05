@@ -10,11 +10,12 @@ class User():
         self.public_key = self.__initialize_public_key()
         self.cipherist = Cipherist(public_key = self.public_key, eliptic_curve = self.curve)
         self.decipherist = Decipherist(public_key = self.public_key, private_key = self.private_key, eliptic_curve = self.curve)
+        self.current_coded_message = None
         
     def cipher_message(self, message: int):
         logging.getLogger().info("Your message is equivalent to the EC point: " + str(self.curve.points[message]))
         self.current_coded_message = self.cipherist(self.curve.points[message])
-        logging.getLogger().info("Coded message [c1, c2]: " + str(self.current_coded_message))
+        logging.getLogger().info("Coded message [c1, c2]: " + ', '.join(str(x) for x in self.current_coded_message))
         
     def decipher_current_message(self) -> int:
         if self.current_coded_message == None:
@@ -30,7 +31,7 @@ class User():
     
     def __initialize_public_key(self) -> Public_key:
         P = self.curve.points[random.randint(1, self.curve.order -1)]
-        Q = self.curve.multiply_poit_by_integer(self.private_key, P)
+        Q = self.curve.multiply_point_by_integer(self.private_key, P)
         return Public_key(P, Q)
         
     @staticmethod

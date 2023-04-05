@@ -83,7 +83,7 @@ class EllipticCurve:
         y = fraction * (self.GF(point_a.x) - x) - self.GF(point_a.y)
         return CurvePoint(int(x), int(y))
     
-    def multiply_poit_by_integer(self, integer: int, point: CurvePoint) -> CurvePoint:
+    def multiply_point_by_integer(self, integer: int, point: CurvePoint) -> CurvePoint:
         if integer < 1:
             raise RuntimeError("Cannot multiply with given number.")
         result = point
