@@ -10,7 +10,7 @@ if __name__ == "__main__":
     user = User()
     while True:
         try:
-            command = Command()
+            command = Command(user)
             if command.command == CommandsEnum.QUIT:
                 break
             command.process(user)

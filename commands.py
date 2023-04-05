@@ -17,10 +17,10 @@ class CommandsEnum(enum.Enum):
     PUBLIC_KEY = ["--public_key", "key", "Show public key."]
 
 class Command:
-    def __init__(self):
+    def __init__(self, user: User):
         user_input = input("Awaiting command: ")
         self.command = Command._get_command_enum(user_input)
-        self.params = Command._get_command_params(self.command)
+        self.params = Command._get_command_params(self.command, user)
     
     def process(self, user: User):
         if self.command == CommandsEnum.NULL_COMMAND:
@@ -64,12 +64,11 @@ class Command:
         return CommandsEnum.NULL_COMMAND
 
     @staticmethod
-    def _get_command_params(command_enum: CommandsEnum) -> list | None:
+    def _get_command_params(command_enum: CommandsEnum, user: User) -> list | None:
         if command_enum == CommandsEnum.CIPHER:
-            logging.getLogger().info("Type message you want to coded. Message can be an arbitrary number in the range 0 - 134.")
+            logging.getLogger().info("Type message you want to coded. Message can be an arbitrary number in the range 0 - " 
+                                     + str(len(user.curve.points) - 1) + ".")
             return int(User.read_int("Message: "))
-        # if command_enum == CommandsEnum.DECIPHER:
-        #     raise NotImplementedError("Deciphering is not implemented yet.")
         if command_enum == CommandsEnum.SET_CURVE:
             logging.getLogger().info("Setting elliptic-curve in the form y^2 = x^3 + ax + b.")
             param_a = int(User.read_int("Parameter a: "))
