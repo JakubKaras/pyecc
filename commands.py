@@ -43,7 +43,7 @@ class Command:
             self.user.decipher_current_message()  
         if self.command == CommandsEnum.PUBLIC_KEY:
             public_key = self.user.get_public_key()
-            logging.getLogger().info("Public key: " + str(public_key.P) + "," + str(public_key.Q))  
+            logging.getLogger().info("Public key: " + str(public_key))  
             
     @staticmethod
     def _help_message() -> str:
