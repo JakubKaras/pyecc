@@ -38,7 +38,7 @@ class Command:
         if self.command == CommandsEnum.PRINT_POINTS:
             self.user.curve.print_points()
         if self.command == CommandsEnum.CIPHER:
-            self.user.cipher_message(self.params)
+            self.user.cipher_message(*self.params)
         if self.command == CommandsEnum.DECIPHER:
             self.user.decipher_current_message()  
         if self.command == CommandsEnum.PUBLIC_KEY:
@@ -68,7 +68,7 @@ class Command:
         if command_enum == CommandsEnum.CIPHER:
             logging.getLogger().info("Type message you want to coded. Message can be an arbitrary number in the range 0 - " 
                                      + str(len(user.curve.points) - 1) + ".")
-            return int(User.read_int("Message: "))
+            return [int(User.read_int("Message: "))]
         if command_enum == CommandsEnum.SET_CURVE:
             logging.getLogger().info("Setting elliptic-curve in the form y^2 = x^3 + ax + b.")
             param_a = int(User.read_int("Parameter a: "))
