@@ -72,6 +72,8 @@ class EllipticCurve:
         if point_b == CurvePoint(0, 0):
             return point_a
         if point_a == point_b:
+            if point_a.y == 0:
+                return CurvePoint(0, 0)
             fraction = (3 * (self.GF(point_a.x) ** 2) + self.GF(self.a)) / (2 * self.GF(point_a.y))
             x = (fraction) ** 2 - 2 * self.GF(point_a.x)
             y = fraction * (self.GF(point_a.x) - x) - self.GF(point_a.y)
