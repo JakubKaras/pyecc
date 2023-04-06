@@ -59,9 +59,8 @@ class Command:
         for command_enum in CommandsEnum:
             if command_enum is CommandsEnum.NULL_COMMAND:
                 continue
-            for command_key in command_enum.value[:2]:
-                if command_key in command_string:
-                    return command_enum
+            if command_string in command_enum.value[:2]:
+                return command_enum
         return CommandsEnum.NULL_COMMAND
 
     @staticmethod
