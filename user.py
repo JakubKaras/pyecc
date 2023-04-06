@@ -10,7 +10,7 @@ class User():
         self.public_key = self.__initialize_public_key()
         self.cipherist = Cipherist(public_key = self.public_key, eliptic_curve = self.curve)
         self.decipherist = Decipherist(public_key = self.public_key, private_key = self.private_key, eliptic_curve = self.curve)
-        self.current_coded_message = None
+        self.current_coded_message: tuple[CurvePoint, CurvePoint] | None = None
         
     def cipher_message(self, message: int):
         logging.getLogger().info("Your message is equivalent to the EC point: " + str(self.curve.points[message]))

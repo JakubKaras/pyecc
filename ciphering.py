@@ -19,7 +19,7 @@ class Cipherist:
         self.public_key = public_key
         self.eliptic_curve = eliptic_curve
     
-    def __call__(self, message: CurvePoint):
+    def __call__(self, message: CurvePoint) -> tuple[CurvePoint, CurvePoint]:
         a = self.__generate_a_value(self.eliptic_curve.order)
         return self.eliptic_curve.multiply_point_by_integer(a ,self.public_key.P), self.eliptic_curve.sum_points(message, self.eliptic_curve.multiply_point_by_integer( a, self.public_key.Q))
     
