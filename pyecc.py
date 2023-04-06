@@ -13,6 +13,6 @@ if __name__ == "__main__":
             command = Command(user)
             if command.command == CommandsEnum.QUIT:
                 break
-            command.process(user)
+            command.process()
         except Exception as e:
             logging.getLogger().exception(f"An error occured: {e}")

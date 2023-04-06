@@ -18,30 +18,31 @@ class CommandsEnum(enum.Enum):
 
 class Command:
     def __init__(self, user: User):
+        self.user = user
         user_input = input("Awaiting command: ")
         self.command = Command._get_command_enum(user_input)
-        self.params = Command._get_command_params(self.command, user)
+        self.params = Command._get_command_params(self.command, self.user)
     
-    def process(self, user: User):
+    def process(self):
         if self.command == CommandsEnum.NULL_COMMAND:
             logging.getLogger().info("The command was not recognized.")
         if self.command == CommandsEnum.SET_CURVE:
-            user.curve = EllipticCurve(self.params)
+            self.user.curve = EllipticCurve(self.params)
         if self.command == CommandsEnum.HELP:
             logging.getLogger().info(Command._help_message())
         if self.command == CommandsEnum.SHOW_CURVE:
             logging.getLogger().info("Close the figure to continue.")
-            user.curve.plot()
+            self.user.curve.plot()
         if self.command == CommandsEnum.SUMS:
-            user.curve.print_sum_table()
+            self.user.curve.print_sum_table()
         if self.command == CommandsEnum.PRINT_POINTS:
-            user.curve.print_points()
+            self.user.curve.print_points()
         if self.command == CommandsEnum.CIPHER:
-            user.cipher_message(self.params)
+            self.user.cipher_message(self.params)
         if self.command == CommandsEnum.DECIPHER:
-            user.decipher_current_message()  
+            self.user.decipher_current_message()  
         if self.command == CommandsEnum.PUBLIC_KEY:
-            public_key = user.get_public_key()
+            public_key = self.user.get_public_key()
             logging.getLogger().info("Public key: " + str(public_key.P) + "," + str(public_key.Q))  
             
     @staticmethod
