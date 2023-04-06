@@ -22,7 +22,7 @@ class Command:
         user_input = input("Awaiting command: ")
         self.command = Command._get_command_enum(user_input)
         self.params = Command._get_command_params(self.command, self.user)
-    
+
     def process(self):
         if self.command == CommandsEnum.NULL_COMMAND:
             logging.getLogger().info("The command was not recognized.")
@@ -43,8 +43,8 @@ class Command:
             self.user.decipher_current_message()  
         if self.command == CommandsEnum.PUBLIC_KEY:
             public_key = self.user.get_public_key()
-            logging.getLogger().info("Public key: " + str(public_key))  
-            
+            logging.getLogger().info("Public key: " + str(public_key))
+
     @staticmethod
     def _help_message() -> str:
         help_message = "The following commands are available:\nCommand:                    Function:\n"
