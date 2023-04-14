@@ -6,11 +6,11 @@ from ciphering import Cipherist, Decipherist, Public_key
 class User():
     def __init__(self) -> None:
         self.curve = EllipticCurve(None)
-        self.private_key = random.randint(1, self.curve.order -1)
+        self.private_key = random.randint(1, self.curve.order - 1)
         self.public_key = self.__initialize_public_key()
-        self.cipherist = Cipherist(public_key = self.public_key, eliptic_curve = self.curve)
-        self.decipherist = Decipherist(public_key = self.public_key, private_key = self.private_key, eliptic_curve = self.curve)
-        self.current_coded_message = None
+        self.cipherist = Cipherist(self.public_key, self.curve)
+        self.decipherist = Decipherist(self.public_key, self.private_key, self.curve)
+        self.current_coded_message: tuple[CurvePoint, CurvePoint] | None = None
         
     def cipher_message(self, message: int):
         logging.getLogger().info("Your message is equivalent to the EC point: " + str(self.curve.points[message]))
@@ -20,7 +20,7 @@ class User():
     def decipher_current_message(self) -> int:
         if self.current_coded_message == None:
             raise RuntimeError("You must first enter your message. Use -c command.")
-        uncoded_message_EC = self.decipherist(coded_message = self.current_coded_message)
+        uncoded_message_EC = self.decipherist(coded_message=self.current_coded_message)
         logging.getLogger().info("Uncoded message in EC representation: " + str(uncoded_message_EC))
         uncoded_message = self.curve.points.index(uncoded_message_EC)
         logging.getLogger().info("Uncoded message: " + str(uncoded_message))
@@ -30,7 +30,7 @@ class User():
         return self.public_key
     
     def __initialize_public_key(self) -> Public_key:
-        P = self.curve.points[random.randint(1, self.curve.order -1)]
+        P = self.curve.points[random.randint(1, len(self.curve.points) - 1)]
         Q = self.curve.multiply_point_by_integer(self.private_key, P)
         return Public_key(P, Q)
         

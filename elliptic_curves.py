@@ -61,7 +61,7 @@ class EllipticCurve:
             if curve_x_value_int in self.second_powers_of.keys():
                 for y_int in self.second_powers_of[curve_x_value_int]:
                     self.points.append(CurvePoint(x_int, y_int))
-    
+
     def print_points(self):
         for point in self.points:
             print(point)
@@ -72,6 +72,8 @@ class EllipticCurve:
         if point_b == CurvePoint(0, 0):
             return point_a
         if point_a == point_b:
+            if point_a.y == 0:
+                return CurvePoint(0, 0)
             fraction = (3 * (self.GF(point_a.x) ** 2) + self.GF(self.a)) / (2 * self.GF(point_a.y))
             x = (fraction) ** 2 - 2 * self.GF(point_a.x)
             y = fraction * (self.GF(point_a.x) - x) - self.GF(point_a.y)
@@ -82,20 +84,20 @@ class EllipticCurve:
         x = (fraction) ** 2 - self.GF(point_a.x) - self.GF(point_b.x)
         y = fraction * (self.GF(point_a.x) - x) - self.GF(point_a.y)
         return CurvePoint(int(x), int(y))
-    
+
     def multiply_point_by_integer(self, integer: int, point: CurvePoint) -> CurvePoint:
         if integer < 1:
             raise RuntimeError("Cannot multiply with given number.")
         result = point
-        for i in range(1, integer):
+        for _ in range(1, integer):
             result = self.sum_points(result, point)
         return result
-    
+
     def inverse_of_point(self, point: CurvePoint):
         for curve_point in self.points:
             if self.sum_points(point, curve_point) == CurvePoint(0, 0):
                 return curve_point
-            
+
     def plot(self):
         x_coordinates = [point.x if point.x <= int(self.GF(0) - self.GF(point.x)) else -int(self.GF(0) - self.GF(point.x)) for point in self.points]
         y_coordinates = [point.y if point.y <= int(self.GF(0) - self.GF(point.y)) else -int(self.GF(0) - self.GF(point.y)) for point in self.points]
